@@ -93,5 +93,38 @@ class NoteAPITest {
             assertTrue(notesString.contains("summer holiday"))
         }
     }
+        @Test
+        fun `listactiveNotes returns no active notes stored when ArrayList is empty `() {
+            assertEquals(0,emptyNotes!!.numberOfActiveNotes())
+            assertTrue(emptyNotes!!.listActiveNotes().lowercase().contains("no active notes"))
+        }
+
+    @Test
+    fun `listactiveNotes returns no active notes when ArrayList has active notes stored ` () {
+        assertEquals(5, populatedNotes!!.numberOfActiveNotes())
+        val notesString = populatedNotes!!.listActiveNotes().lowercase()
+        assertTrue(notesString.contains("learning kotlin"))
+        assertTrue(notesString.contains("code app"))
+        assertTrue(notesString.contains("test app"))
+        assertTrue(notesString.contains("swim"))
+        assertTrue(notesString.contains("summer holiday"))
+    }
+
+    @Test
+    fun `listArchivedNotes returns no active notes stored when ArrayList is empty `() {
+        assertEquals(0,emptyNotes!!.numberOfActiveNotes())
+        assertTrue(emptyNotes!!.listArchivedNotes().lowercase().contains("no active notes"))
+    }
+
+    @Test
+    fun `listArchivedNotes returns no active notes when ArrayList has active notes stored ` () {
+        assertEquals(5, populatedNotes!!.numberOfArchivedNotes())
+        val notesString = populatedNotes!!.listArchivedNotes().lowercase()
+        assertTrue(notesString.contains("learning kotlin"))
+        assertTrue(notesString.contains("code app"))
+        assertTrue(notesString.contains("test app"))
+        assertTrue(notesString.contains("swim"))
+        assertTrue(notesString.contains("summer holiday"))
+    }
 }
 
