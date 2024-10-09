@@ -1,7 +1,7 @@
-package ie.setu.utils
-import java.lang.System.exit
-import io.github.oshai.kotlinlogging.KotlinLogging
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+import utils.readNextInt
+import java.lang.System.exit
 
 private val logger = KotlinLogging.logger {}
 
@@ -9,9 +9,8 @@ fun main() {
     runMenu()
 }
 
-
-fun MainMenu(): Int {
-    print("""
+fun mainMenu(): Int {
+    print(""" 
          > ----------------------------------
          > |        NOTE KEEPER APP         |
          > ----------------------------------
@@ -22,59 +21,42 @@ fun MainMenu(): Int {
          > |   4) Delete a note             |
          > ----------------------------------
          > |   0) Exit                      |
-         > ----------------------------------
-         > ==>> """.trimMargin(">"))
-    return  readIntNotNull()
+         > ---------------------------------- 
+         >""".trimMargin(">"))
+    return readNextInt(" > ==>>")
 }
 
-fun readNextLine(prompt: String?):String {
-print(prompt)
-return readln()
-}
-
-
-fun readNextChar(prompt: String?): Char {
+fun runMenu() {
     do {
-        try {
-            print(prompt)
-            return readln().first()
-        } catch (e: NumberFormatException) {
-            System.err.println("\tEnter a character please.")
+        val option = mainMenu()
+        when (option) {
+            1 -> addNote()
+            2 -> listNotes()
+            3 -> updateNote()
+            4 -> deleteNote()
+            0 -> exitApp()
+            else -> println("Invalid option entered: $option")
         }
     } while (true)
 }
 
-
-fun runMenu() {
-do{
-    when(val option = MainMenu()) {
-        1 -> addNotes()
-        2 -> listNotes()
-        3 -> updateNote()
-        4 -> deleteNote()
-        0 -> exitApp()
-        else -> println("Invalid option entered: ${option}")
-    }
-}  while(true)
+fun addNote() {
+    logger.info { "addNote() function invoked" }
 }
 
-fun addNotes(){
-    logger.info {"addNote() function invoked"}
+fun listNotes() {
+    logger.info { "listNotes() function invoked" }
 }
 
-fun listNotes(){
-    logger.info {"listNotes() function invoked"}
+fun updateNote() {
+    logger.info { "updateNote() function invoked" }
 }
 
-fun updateNote(){
-    logger.info{"updateNote() function invoked"}
+fun deleteNote() {
+    logger.info { "deleteNote() function invoked" }
 }
 
-fun deleteNote(){
-    logger.info{"deleteNote() function invoked"}
-}
-
-fun exitApp(){
+fun exitApp() {
     println("Exiting...bye")
     exit(0)
 }
