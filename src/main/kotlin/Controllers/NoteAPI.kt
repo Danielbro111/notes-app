@@ -127,6 +127,7 @@ class NoteAPI(serializerType: Serializer) {
 
 
 
+
         @Throws(Exception::class)
         fun load() {
             notes = serializer.read() as ArrayList<Note>
@@ -138,4 +139,25 @@ class NoteAPI(serializerType: Serializer) {
         }
 
     }
+
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, notes);
+    }
+
+    fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
+
+        val foundNote = findNote(indexToUpdate)
+
+        if ((foundNote != null) && (note != null)) {
+            foundNote.noteTitle = note.noteTitle
+            foundNote.notePriority = note.notePriority
+            foundNote.noteCategory = note.noteCategory
+            return true
+        }
+        //if the note was not found, return false, indicating that the update was not successful
+        return false
+    }
+}
+
+
 
