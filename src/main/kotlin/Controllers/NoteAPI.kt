@@ -1,8 +1,10 @@
 package controllers
 
 import models.Note
+import persistence.Serializer
 
-class NoteAPI {
+class NoteAPI(serializerType: Serializer) {
+    private var serializer: Serializer = serializerType
     private var notes = ArrayList<Note>()
 
     fun add(note: Note): Boolean {
@@ -34,6 +36,7 @@ class NoteAPI {
             listOfActiveNotes
         }
     }
+
     fun listArchivedNotes(): String {
         return if (numberOfArchivedNotes() == 0) {
             "No archived notes stored"
@@ -116,9 +119,23 @@ class NoteAPI {
         return (index >= 0 && index < list.size)
     }
 
-    fun deleteNote(indexToDelete : Int) : Note? {
+    fun deleteNote(indexToDelete: Int): Note? {
         return if (isValidListIndex(indexToDelete, notes)) {
             notes.removeAt(indexToDelete)
         } else null
     }
-}
+
+
+
+        @Throws(Exception::class)
+        fun load() {
+            notes = serializer.read() as ArrayList<Note>
+        }
+
+        @Throws(Exception::class)
+        fun store() {
+            serializer.write(notes)
+        }
+
+    }
+
