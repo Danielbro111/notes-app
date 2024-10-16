@@ -163,5 +163,24 @@ class NoteAPITest {
             assertFalse(priority4String.contains("summer holiday"))
         }
 
+        @Nested
+        inner class DeleteNotes{
+
+            @Test
+            fun `deleting a N ote that does not exist, reutns null`() {
+                assertNull(emptyNotes!!.deleteNote(0))
+                assertNull(populatedNotes!!.deleteNote(-1))
+                assertNull(populatedNotes!!.deleteNote(5))
+            }
+
+            @Test
+            fun ` deleting a note that exists delete and returns deleted object`() {
+                assertEquals(5, populatedNotes!!.numberOfNotes())
+                assertEquals(swim, populatedNotes!!.deleteNote(4))
+                assertEquals(4, populatedNotes!!.numberOfNotes())
+                assertEquals(learnKotlin, populatedNotes!!.deleteNote(0))
+                assertEquals(3, populatedNotes!!.numberOfNotes())
+            }
+        }
     }
 }
