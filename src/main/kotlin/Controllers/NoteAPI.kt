@@ -126,38 +126,49 @@ class NoteAPI(serializerType: Serializer) {
     }
 
 
-
-
-        @Throws(Exception::class)
-        fun load() {
-            notes = serializer.read() as ArrayList<Note>
-        }
-
-        @Throws(Exception::class)
-        fun store() {
-            serializer.write(notes)
-        }
-
+    @Throws(Exception::class)
+    fun load() {
+        notes = serializer.read() as ArrayList<Note>
     }
 
-    fun isValidIndex(index: Int) :Boolean{
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(notes)
+    }
+
+
+    fun isValidIndex(index: Int): Boolean {
         return isValidListIndex(index, notes);
     }
 
-    fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
 
+    fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
+        //find the note object by the index number
         val foundNote = findNote(indexToUpdate)
 
+        //if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
         if ((foundNote != null) && (note != null)) {
             foundNote.noteTitle = note.noteTitle
             foundNote.notePriority = note.notePriority
             foundNote.noteCategory = note.noteCategory
             return true
         }
+
         //if the note was not found, return false, indicating that the update was not successful
         return false
     }
-}
 
+    fun archiveNote(indexToArchive: Int): Boolean {
+        if (isValidIndex(indexToArchive)) {
+            val noteToArchive = notes[indexToArchive]
+            if (!noteToArchive.isNoteArchived) {
+                noteToArchive.isNoteArchived = true
+                return true
+            }
+        }
+        return false
+    }
+
+}
 
 
