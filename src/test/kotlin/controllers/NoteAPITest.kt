@@ -448,7 +448,52 @@ class NoteAPITest {
             assertFalse(priority4String.contains("summer holiday"))
         }
     }
+
+
+    @Nested
+    inner class SearchMethods {
+
+        @Test
+        fun `search notes by title returns no notes when no notes with that title exist`() {
+            //SEARCHING A POPULATED COLLECTION FOR A TITLE THAT DOESNT EXIST//
+            assertEquals(5, populatedNotes!!.numberOfNotes())
+            val searchResults = populatedNotes!!.searchByTitle("no results expected")
+            assertTrue(searchResults.isEmpty())
+
+            //SEARCHING AN EMPTY COLLECTION
+            assertEquals(0, emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.searchByTitle("").isEmpty())
+        }
+    }
+
+    @Test
+    fun`search notes by title returns notes when notes with that title exist`() {
+        assertEquals(5,populatedNotes!!.numberOfNotes())
+
+        //SEARCHING A POPULATED COLLECTION FOR A FULL TITLE THAT EXISTS (CASE MATCHES EXACTLY)
+        var searchResults = populatedNotes!!.searchByTitle("Code App")
+        assertTrue(searchResults.contains("Code App"))
+        assertFalse(searchResults.contains("Test App"))
+
+
+        //SEARCHING A POPULATED COLLECTION FOR A PARTIAL TITLE THAT EXISTS (CASE MATCHES EXACTLY)
+        searchResults = populatedNotes!!.searchByTitle("App")
+        assertTrue(searchResults.contains("Code App"))
+        assertTrue(searchResults.contains("Test App"))
+        assertFalse(searchResults.contains("Swim - Pool"))
+
+        //SEARCHING A POPULATED COLLECTION FOR A PARTIAL TITLE THAT EXISTS (CASE doesnt match)
+        searchResults = populatedNotes!!.searchByTitle("APp")
+        assertTrue(searchResults.contains("Code App"))
+        assertTrue(searchResults.contains("Test App"))
+        assertFalse(searchResults.contains("Swim - Pool"))
+
+    }
 }
+
+
+
+
 
 
 
