@@ -86,6 +86,10 @@ fun addNote() {
 
 }
 
+fun Note(noteTitle: String, notePriority: Int, noteCategory: String, isNoteArchived: Boolean): Note {
+    TODO("Not yet implemented")
+}
+
 fun listNotes() {
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(

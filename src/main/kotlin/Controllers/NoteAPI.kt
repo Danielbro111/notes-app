@@ -3,6 +3,7 @@ package controllers
 import models.Note
 import org.jetbrains.annotations.TestOnly
 import persistence.Serializer
+import utils.isValidListIndex
 
 class NoteAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
@@ -82,10 +83,6 @@ class NoteAPI(serializerType: Serializer) {
         } else null
     }
 
-    //utility method to determine if an index is valid in a list.
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
-        return (index >= 0 && index < list.size)
-    }
 
     fun deleteNote(indexToDelete: Int): Note? {
         return if (isValidListIndex(indexToDelete, notes)) {
