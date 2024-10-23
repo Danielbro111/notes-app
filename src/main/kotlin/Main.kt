@@ -169,7 +169,7 @@ fun archiveNote() {
         val indexToArchive = readNextInt("Enter the index of the note to archive: ")
         //pass the index of the note to NoteAPI for archiving and check for success.
         if (noteAPI.archiveNote(indexToArchive)) {
-            println("Archive Successful!")
+            println("Archive is Successful!")
         } else {
             println("Archive NOT Successful")
         }
