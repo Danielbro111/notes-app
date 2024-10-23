@@ -1,6 +1,7 @@
 package controllers
 
 import models.Note
+import org.jetbrains.annotations.TestOnly
 import persistence.Serializer
 
 class NoteAPI(serializerType: Serializer) {
@@ -12,17 +13,17 @@ class NoteAPI(serializerType: Serializer) {
     }
 
     fun listAllNotes(): String =
-         if (notes.isEmpty()) "No notes stored"
-         else notes.joinToString (separator = "\n"){ note ->
-                notes.indexOf(note).toString() + ":"    + note.toString()
-            }
+        if (notes.isEmpty()) "No notes stored"
+        else notes.joinToString(separator = "\n") { note ->
+            notes.indexOf(note).toString() + ":" + note.toString()
+        }
 
     fun listArchivedNotes(): String =
         if (numberOfArchivedNotes() == 0) "No archived notes stored"
-         else notes.filter {note -> note.isNoteArchived}
-             .joinToString  (separator  = "\n"){ note ->
-             notes.indexOf(note).toString() + ":"   +note.toString()
-                }
+        else notes.filter { note -> note.isNoteArchived }
+            .joinToString(separator = "\n") { note ->
+                notes.indexOf(note).toString() + ":" + note.toString()
+            }
 
 
     fun listActiveNotes(): String {
@@ -38,7 +39,6 @@ class NoteAPI(serializerType: Serializer) {
             listOfActiveNotes
         }
     }
-
 
 
     fun listNotesBySelectedPriority(priority: Int): String {
@@ -66,14 +66,14 @@ class NoteAPI(serializerType: Serializer) {
     }
 
     fun numberOfArchivedNotes(): Int {
-      return   notes.stream()
+        return notes.stream()
             .filter { obj: Note -> obj.isNoteArchived }
             .count()
             .toInt()
     }
 
     fun numberOfActiveNotes(): Int {
-       return notes.stream()
+        return notes.stream()
             .filter { note: Note -> !note.isNoteArchived }
             .count()
             .toInt()
@@ -103,6 +103,12 @@ class NoteAPI(serializerType: Serializer) {
             notes.removeAt(indexToDelete)
         } else null
     }
+
+    fun searchByTitle(searchString: String) =
+        notes.filter { note -> note.noteTitle.contains(searchString, ignoreCase = true) }
+            .joinToString(separator = "\n") { note ->
+                notes.indexOf(note).toString() + ":" + note.toString()
+            }
 
 
     @Throws(Exception::class)
@@ -147,7 +153,8 @@ class NoteAPI(serializerType: Serializer) {
         }
         return false
     }
-
 }
+
+
 
 
